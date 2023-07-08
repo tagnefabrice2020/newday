@@ -1,9 +1,5 @@
 <?php
 
-use App\Http\Controllers\User\ReadUserController;
-use App\Http\Controllers\User\StoreUserController;
-use App\Http\Controllers\User\UpdateUserController;
-use App\Http\Controllers\User\UserController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
@@ -22,8 +18,7 @@ Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
     return $request->user();
 });
 
-
-Route::get('/user', [UserController::class, 'index']);
-Route::post('/users', [StoreUserController::class, 'store']);
-Route::get('/users/{id}', [ReadUserController::class, 'show']);
-Route::patch('/users/{id}', [UpdateUserController::class, 'update']);
+@include('./api/auth.php');
+@include('./api/user.php');
+@include('./api/question.php');
+@include('./api/topic.php');
