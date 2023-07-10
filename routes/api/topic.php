@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\Topic\DeleteTopicController;
 use App\Http\Controllers\Topic\ReadTopicController;
 use App\Http\Controllers\Topic\StoreTopicController;
 use App\Http\Controllers\Topic\TopicController;

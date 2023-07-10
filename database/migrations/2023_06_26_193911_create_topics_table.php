@@ -15,8 +15,10 @@ class CreateTopicsTable extends Migration
     {
         Schema::create('topics', function (Blueprint $table) {
             $table->id();
+            $table->uuid('uuid')->unique();
             $table->string('name');
             $table->bigInteger('author_id')->unsigned();
+            $table->enum('type', ["mcq", "question_answer"]); // question and answer or mcq
             $table->string('tags')->nullable();
             $table->foreign('author_id')->references('id')->on('users');
             $table->timestamps();
