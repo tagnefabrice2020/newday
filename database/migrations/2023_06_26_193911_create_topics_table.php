@@ -18,7 +18,8 @@ class CreateTopicsTable extends Migration
             $table->uuid('uuid')->unique();
             $table->string('name');
             $table->bigInteger('author_id')->unsigned();
-            $table->enum('type', ["mcq", "question_answer"]); // question and answer or mcq
+            $table->enum('type', ["mcq", "question_answer"])->default('mcq'); // question and answer or mcq
+            $table->text('description')->nullable();
             $table->string('tags')->nullable();
             $table->foreign('author_id')->references('id')->on('users');
             $table->timestamps();
