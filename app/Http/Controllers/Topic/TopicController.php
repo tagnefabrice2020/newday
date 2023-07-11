@@ -19,7 +19,9 @@ class TopicController extends Controller
             return response()->json(['message' => 'User not found'], 404);
         }
 
-        $topics = Topic::where('author_id', $userId)->paginate($perPage);
+       // $topics = Topic::where('author_id', $userId)->paginate($perPage);
+
+        $topics = Topic::where('author_id', $userId)->get();
 
         return response()->json($topics, 200);
     }

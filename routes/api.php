@@ -28,11 +28,11 @@ Route::post('/register', [AuthController::class, 'register']);
 Route::post('/login', [AuthController::class, 'login']);
 Route::post('/logout', [AuthController::class, 'logout']);
 
-Route::get('/topics', [TopicController::class, 'index']);
-Route::patch('/topics/{id}', [UpdateTopicController::class, 'update']);
-Route::post('/topics', [StoreTopicController::class, 'store']);
-Route::delete('/topics', [DeleteTopicController::class, 'destroy']);
-Route::get('/topics/{id}/', [ReadTopicController::class, 'show']);
+Route::middleware('auth:sanctum')->get('/topics', [TopicController::class, 'index']);
+Route::middleware('auth:sanctum')->patch('/topics/{id}', [UpdateTopicController::class, 'update']);
+Route::middleware('auth:sanctum')->post('/topics', [StoreTopicController::class, 'store']);
+Route::middleware('auth:sanctum')->delete('/topics', [DeleteTopicController::class, 'destroy']);
+Route::middleware('auth:sanctum')->get('/topics/{id}/', [ReadTopicController::class, 'show']);
 
 
 
