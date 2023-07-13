@@ -17,10 +17,14 @@ class CreateQuestionsTable extends Migration
             $table->id();
             $table->uuid('uuid')->unique();
             $table->bigInteger('topic_id')->unsigned();
+            $table->bigInteger('created_by')->unsigned();
             $table->string('question');
             $table->string('tags')->nullable();
+            $table->string('correct_feedback')->nullable();
+            $table->string('incorrect_feedback')->nullable();
             
             $table->foreign('topic_id')->references('id')->on('topics');
+            $table->foreign('created_by')->references('id')->on('users');
             $table->timestamps();
         });
     }

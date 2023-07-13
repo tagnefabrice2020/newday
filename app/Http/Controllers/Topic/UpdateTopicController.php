@@ -11,9 +11,9 @@ use Illuminate\Support\Facades\Validator;
 
 class UpdateTopicController extends Controller
 {
-    public function update(Request $r, $id)
+    public function update(Request $r, $uuid)
     {
-        $topic = Topic::find($id);
+        $topic = Topic::where('uuid', $uuid)->first();
 
         if (!$topic) {
             return response()->json(['message' => 'Topic not found'], 404);
@@ -34,6 +34,9 @@ class UpdateTopicController extends Controller
         }
         if ($r->has('tags')) {
             $topic->tags = implode(",", $r->tags);
+        }
+        if ($r->has('type') && $topic->questions()->count() === 0) {
+            $topic->type = $r->type;
         }
         if ($r->has('description')) {
             $topic->description = $r->description;

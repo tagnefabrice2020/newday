@@ -20,7 +20,7 @@ class CreateOptionsTable extends Migration
             $table->string('option_text');
             $table->boolean('is_correct');
 
-            $table->foreign('question_id')->references('id')->on('questions');
+            $table->foreign('question_id')->references('id')->on('questions')->onDelete('cascade');
             $table->timestamps();
         });
     }

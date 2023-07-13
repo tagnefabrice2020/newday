@@ -21,6 +21,8 @@ class CreateTopicsTable extends Migration
             $table->enum('type', ["mcq", "question_answer"])->default('mcq'); // question and answer or mcq
             $table->text('description')->nullable();
             $table->string('tags')->nullable();
+            $table->boolean('verified')->default(false);
+            $table->dateTime('verified_at')->nullable();
             $table->foreign('author_id')->references('id')->on('users');
             $table->timestamps();
         });

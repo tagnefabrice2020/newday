@@ -29,10 +29,10 @@ Route::post('/login', [AuthController::class, 'login']);
 Route::post('/logout', [AuthController::class, 'logout']);
 
 Route::middleware('auth:sanctum')->get('/topics', [TopicController::class, 'index']);
-Route::middleware('auth:sanctum')->patch('/topics/{id}', [UpdateTopicController::class, 'update']);
+Route::middleware('auth:sanctum')->patch('/topics/{uuid}', [UpdateTopicController::class, 'update']);
 Route::middleware('auth:sanctum')->post('/topics', [StoreTopicController::class, 'store']);
 Route::middleware('auth:sanctum')->delete('/topics', [DeleteTopicController::class, 'destroy']);
-Route::middleware('auth:sanctum')->get('/topics/{id}/', [ReadTopicController::class, 'show']);
+Route::middleware('auth:sanctum')->get('/topics/{uuid}/', [ReadTopicController::class, 'show']);
 
 
 

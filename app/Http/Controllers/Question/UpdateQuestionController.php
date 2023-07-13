@@ -10,9 +10,10 @@ use Illuminate\Http\Request;
 
 class UpdateQuestionController extends Controller
 {
-    public function update(Request $request, $id)
+    public function update(Request $r, $id)
     {
-        $request->validate([
+        $r->validate([
+            'topic' => 'required|existes:topics,id',
             'question' => 'required',
             'options' => 'required|array|min:2',
             'options.*.option_text' => 'required|string',
@@ -20,18 +21,36 @@ class UpdateQuestionController extends Controller
         ]);
 
         $question = Question::where('author_id', Auth::id())->findOrFail($id);
-        $question->question = $request->input('question');
+
+        if ($r->has('question')) {
+            $question->question = $r->input('question');
+        }
+        if ($r->input('tags')) {
+            $question->tags = $r->input('tags');
+        }
+        if ($r->input('correct_feedback')) {
+            $question->correct_feedback = $r->input('correct_feedback');
+        }
+        if ($r->input('incorrect_feedback')) {
+            $question->incorrect_feedback = $r->input('incorrect_feedback');
+        }
+        if ($r->has('question_answer')) {
+            $question->answer = $r->input('question_answer');
+        }
+
         $question->save();
 
         // Delete existing options for the question
         Option::where('question_id', $question->id)->delete();
-
-        foreach ($request->input('options') as $optionData) {
-            $option = new Option();
-            $option->question_id = $question->id;
-            $option->option_text = $optionData['option_text'];
-            $option->is_correct = $optionData['is_correct'];
-            $option->save();
+        
+        if ($r->has('options')) {
+            foreach ($r->input('options') as $optionData) {
+                $option = new Option();
+                $option->question_id = $question->id;
+                $option->option_text = $optionData['option_text'];
+                $option->is_correct = $optionData['is_correct'];
+                $option->save();
+            }
         }
 
         return response()->json(['message' => 'Question and options updated successfully'], 200);

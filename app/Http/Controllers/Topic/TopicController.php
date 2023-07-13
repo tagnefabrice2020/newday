@@ -16,12 +16,12 @@ class TopicController extends Controller
 
         // Check if the user exists
         if (!$userId) {
-            return response()->json(['message' => 'User not found'], 404);
+            return response()->json(["message" => "User not found"], 404);
         }
 
        // $topics = Topic::where('author_id', $userId)->paginate($perPage);
 
-        $topics = Topic::where('author_id', $userId)->get();
+        $topics = Topic::where('author_id', $userId)->withCount('questions')->get();
 
         return response()->json($topics, 200);
     }
