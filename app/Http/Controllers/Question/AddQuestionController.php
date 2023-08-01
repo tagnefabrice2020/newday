@@ -14,22 +14,23 @@ class AddQuestionController extends Controller
     public function store(Request $r)
     {
         $r->validate([
-            'topic' => 'required|existes:topics,id',
+            'topic' => 'required|exists:topics,id',
             'question' => 'required',
+            'tags' => 'required',
             'options' => 'required|array|min:2',
-            'options.*.option_text' => 'required|string',
-            'options.*.is_correct' => 'required|boolean',
+            'options.*.option' => 'required|string',
+            'options.*.isAnswer' => 'required|boolean',
         ]);
 
         $question = new Question;
 
         $question->question = $r->input('question');
-        $question->topic_id = $r->input('topic_id');
+        $question->topic_id = $r->input('topic');
         $question->uuid = Str::orderedUuid();
         $question->created_by = Auth::id();
-        
+
         if ($r->input('tags')) {
-            $question->tags = $r->input('tags');
+            $question->tags = implode('-', $r->input('tags'));
         }
         if ($r->input('correct_feedback')) {
             $question->correct_feedback = $r->input('correct_feedback');
@@ -41,20 +42,24 @@ class AddQuestionController extends Controller
             $question->answer = $r->input('question_answer');
         }
 
-        $question->save();
+        $save = $question->save();
 
-        if ($r->has('options')) {
-            foreach ($r->input('options') as $optionData) {
-                $option = new Option();
-                $option->question_id = $question->id;
-                $option->option_text = $optionData['option_text'];
-                $option->is_correct = $optionData['is_correct'];
+        if ($save) {
+            if ($r->has('options')) {
+                foreach ($r->input('options') as $optionData) {
+                    $option = new Option();
+                    $option->uuid = Str::orderedUuid();
+                    $option->question_id = $question->id;
+                    $option->option_text = $optionData['option'];
+                    $option->is_correct = $optionData['isAnswer'];
 
-                $option->save();
+                    $option->save();
+                }
             }
+            return response()->json(['message' => 'Question and options updated successfully'], 200);
         }
 
 
-        return response()->json(['message' => 'Question and options updated successfully'], 200);
+        return response()->json(['message' => 'Ooops something went wrong'], 500);
     }
 }
