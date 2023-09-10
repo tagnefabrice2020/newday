@@ -12,6 +12,7 @@ use App\Http\Controllers\Question\AddQuestionController;
 use App\Http\Controllers\Question\DeleteQuestionController;
 use App\Http\Controllers\Question\QuestionController;
 use App\Http\Controllers\Question\ReadQuestionController;
+use App\Http\Controllers\Topic\TopicQuestionController;
 
 /*
 |--------------------------------------------------------------------------
@@ -37,12 +38,13 @@ Route::middleware('auth:sanctum')->patch('/topics/{uuid}', [UpdateTopicControlle
 Route::middleware('auth:sanctum')->post('/topics', [StoreTopicController::class, 'store']);
 Route::middleware('auth:sanctum')->delete('/topics', [DeleteTopicController::class, 'destroy']);
 Route::middleware('auth:sanctum')->get('/topics/{uuid}/', [ReadTopicController::class, 'show']);
-
+Route::middleware('auth:sanctum')->get('/topics/{uuid}/questions', [TopicQuestionController::class, 'index']);
 
 Route::middleware('auth:sanctum')->get('/questions', [QuestionController::class, 'index']);
 Route::middleware('auth:sanctum')->post('/questions', [AddQuestionController::class, 'store']);
 Route::middleware('auth:sanctum')->delete('/questions', [DeleteQuestionController::class, 'destroy']);
 Route::middleware('auth:sanctum')->get('/questions/{id}', [ReadQuestionController::class, 'show']);
+
 
 
 // @include('./api/auth.php');
