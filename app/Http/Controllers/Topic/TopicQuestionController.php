@@ -11,9 +11,7 @@ class TopicQuestionController extends Controller
 {
     public function index(Request $r, $uuid)
     {
-        $topicQuestions =
-            Question::select('question', 'tags', 'created_at')
-            ->with(['options'])
+        $topicQuestions = Question::with('options')
             ->where('topic_id', function ($query) use ($uuid) {
                 $query->select('id')
                     ->from('topics')

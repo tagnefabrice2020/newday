@@ -12,15 +12,15 @@ class UpdateQuestionController extends Controller
 {
     public function update(Request $r, $id)
     {
-        $r->validate([
-            'topic' => 'required|existes:topics,id',
-            'question' => 'required',
-            'options' => 'required|array|min:2',
-            'options.*.option_text' => 'required|string',
-            'options.*.is_correct' => 'required|boolean',
-        ]);
+        // $r->validate([
+        //     'topic' => 'required|existes:topics,id',
+        //     'question' => 'required',
+        //     'options' => 'required|array|min:2',
+        //     'options.*.option_text' => 'required|string',
+        //     'options.*.is_correct' => 'required|boolean',
+        // ]);
 
-        $question = Question::where('author_id', Auth::id())->findOrFail($id);
+        $question = Question::where('created_by', Auth::id())->where('uuid', $id)->first();
 
         if ($r->has('question')) {
             $question->question = $r->input('question');
@@ -39,11 +39,11 @@ class UpdateQuestionController extends Controller
         }
 
         $question->save();
-
-        // Delete existing options for the question
-        Option::where('question_id', $question->id)->delete();
         
         if ($r->has('options')) {
+            // Delete existing options for the question
+            Option::where('question_id', $question->id)->delete();
+
             foreach ($r->input('options') as $optionData) {
                 $option = new Option();
                 $option->question_id = $question->id;

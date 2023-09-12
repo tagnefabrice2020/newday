@@ -1,6 +1,8 @@
 <?php
 
 use App\Http\Controllers\Auth\AuthController;
+use App\Http\Controllers\Option\ReadOptionController;
+use App\Http\Controllers\Option\UpdateOptionController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Topic\DeleteTopicController;
@@ -12,6 +14,7 @@ use App\Http\Controllers\Question\AddQuestionController;
 use App\Http\Controllers\Question\DeleteQuestionController;
 use App\Http\Controllers\Question\QuestionController;
 use App\Http\Controllers\Question\ReadQuestionController;
+use App\Http\Controllers\Question\UpdateQuestionController;
 use App\Http\Controllers\Topic\TopicQuestionController;
 
 /*
@@ -44,6 +47,10 @@ Route::middleware('auth:sanctum')->get('/questions', [QuestionController::class,
 Route::middleware('auth:sanctum')->post('/questions', [AddQuestionController::class, 'store']);
 Route::middleware('auth:sanctum')->delete('/questions', [DeleteQuestionController::class, 'destroy']);
 Route::middleware('auth:sanctum')->get('/questions/{id}', [ReadQuestionController::class, 'show']);
+Route::middleware('auth:sanctum')->put('/questions/{id}/update', [UpdateQuestionController::class, 'update']);
+
+Route::middleware('auth:sanctum')->get('/options/{id}', [ReadOptionController::class, 'show']);
+Route::middleware('auth:sanctum')->put('/options/{id}/update', [UpdateOptionController::class, 'update']);
 
 
 

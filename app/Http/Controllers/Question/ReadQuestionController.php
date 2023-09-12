@@ -11,7 +11,8 @@ class ReadQuestionController extends Controller
 {
     public function show($id)
     {
-        $question = Question::where('author_id', Auth::id())->findOrFail($id);
+        $question = Question::where('created_by', Auth::id())
+            ->where('uuid', $id)->first();
         $options = Option::where('question_id', $question->id)->get();
         $question['options'] = $options;
         return response()->json($question, 200);
