@@ -4,6 +4,7 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 
 class Topic extends Model
 {
@@ -15,5 +16,9 @@ class Topic extends Model
 
     public function questions () {
         return $this->hasMany(Question::class);
+    }
+
+    public function bundle () {
+        return $this->belongsToMany(Bundle::class, 'bundle_topic');
     }
 }

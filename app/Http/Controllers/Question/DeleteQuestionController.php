@@ -12,7 +12,8 @@ class DeleteQuestionController extends Controller
 {
     public function destroy($id)
     {
-        $question = Question::where('author_id', Auth::id())->findOrFail($id);
+        $question = Question::where('created_by', Auth::id())->where('uuid', $id)->first();
+        $question->options()->delete();
         $question->delete();
 
         return response()->json(['message' => 'Question deleted successfully'], 200);

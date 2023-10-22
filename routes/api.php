@@ -45,7 +45,7 @@ Route::middleware('auth:sanctum')->get('/topics/{uuid}/questions', [TopicQuestio
 
 Route::middleware('auth:sanctum')->get('/questions', [QuestionController::class, 'index']);
 Route::middleware('auth:sanctum')->post('/questions', [AddQuestionController::class, 'store']);
-Route::middleware('auth:sanctum')->delete('/questions', [DeleteQuestionController::class, 'destroy']);
+Route::middleware('auth:sanctum')->delete('/questions/{uuid}', [DeleteQuestionController::class, 'destroy']);
 Route::middleware('auth:sanctum')->get('/questions/{id}', [ReadQuestionController::class, 'show']);
 Route::middleware('auth:sanctum')->put('/questions/{id}/update', [UpdateQuestionController::class, 'update']);
 
