@@ -42,6 +42,12 @@ class AddQuestionController extends Controller
             $question->answer = $r->input('question_answer');
         }
 
+        if ($r->has('multipleAnswer')){
+            $question->multiple_answers = true;
+        }
+
+
+
         $save = $question->save();
 
         if ($save) {

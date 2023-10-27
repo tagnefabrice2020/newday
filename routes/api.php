@@ -43,16 +43,16 @@ Route::middleware('auth:sanctum')->delete('/topics', [DeleteTopicController::cla
 Route::middleware('auth:sanctum')->get('/topics/{uuid}/', [ReadTopicController::class, 'show']);
 Route::middleware('auth:sanctum')->get('/topics/{uuid}/questions', [TopicQuestionController::class, 'index']);
 
-Route::middleware('auth:sanctum')->get('/questions', [QuestionController::class, 'index']);
-Route::middleware('auth:sanctum')->post('/questions', [AddQuestionController::class, 'store']);
-Route::middleware('auth:sanctum')->delete('/questions/{uuid}', [DeleteQuestionController::class, 'destroy']);
-Route::middleware('auth:sanctum')->get('/questions/{id}', [ReadQuestionController::class, 'show']);
-Route::middleware('auth:sanctum')->put('/questions/{id}/update', [UpdateQuestionController::class, 'update']);
+Route::middleware('auth:sanctum')->get('/my-questions', [QuestionController::class, 'index']);
+Route::middleware('auth:sanctum')->post('/my-questions', [AddQuestionController::class, 'store']);
+Route::middleware('auth:sanctum')->delete('/my-questions/{uuid}', [DeleteQuestionController::class, 'destroy']);
+Route::middleware('auth:sanctum')->get('/my-questions/{id}', [ReadQuestionController::class, 'show']);
+Route::middleware('auth:sanctum')->put('/my-questions/{id}/update', [UpdateQuestionController::class, 'update']);
 
 Route::middleware('auth:sanctum')->get('/options/{id}', [ReadOptionController::class, 'show']);
 Route::middleware('auth:sanctum')->put('/options/{id}/update', [UpdateOptionController::class, 'update']);
 
-
+Route::get('/topicList', [TopicController::class, 'topicList']);
 
 // @include('./api/auth.php');
 // @include('./api/user.php');

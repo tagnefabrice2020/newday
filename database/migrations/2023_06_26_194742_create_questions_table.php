@@ -19,6 +19,7 @@ class CreateQuestionsTable extends Migration
             $table->bigInteger('topic_id')->unsigned();
             $table->bigInteger('created_by')->unsigned();
             $table->string('question');
+            $table->boolean('multiple_answers')->default(false);
             $table->string('tags')->nullable();
             $table->string('correct_feedback')->nullable();
             $table->string('incorrect_feedback')->nullable();

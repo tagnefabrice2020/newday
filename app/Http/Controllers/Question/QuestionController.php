@@ -11,8 +11,11 @@ class QuestionController extends Controller
 {
     public function index(Request $request)
     {
+        return Auth::id();
         $perPage = $request->input('per_page', 10);
-        $questions = Question::where('author_id', Auth::id())->with(['options'])->paginate($perPage);
+        $questions = Question::where('created_by', Auth::id())->with(['options'])->paginate($perPage);
         return response()->json($questions, 200);
     }
+
+    // public function 
 }

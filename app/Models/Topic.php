@@ -11,7 +11,7 @@ class Topic extends Model
     use HasFactory;
 
     public function setter () {
-        return $this->belongsTo(User::class);
+        return $this->belongsTo(User::class, 'author_id', 'id');
     }
 
     public function questions () {

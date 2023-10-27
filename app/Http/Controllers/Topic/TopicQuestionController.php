@@ -16,7 +16,11 @@ class TopicQuestionController extends Controller
                 $query->select('id')
                     ->from('topics')
                     ->where('uuid', $uuid);
-            })
+            });
+        if ($r->has("no_paginate")) {
+            return  $topicQuestions->limit(20)->get();
+        }
+        $topicQuestions
             ->paginate($r->perPage);
         return $topicQuestions;
     }
