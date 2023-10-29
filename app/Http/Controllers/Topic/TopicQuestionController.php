@@ -17,11 +17,13 @@ class TopicQuestionController extends Controller
                     ->from('topics')
                     ->where('uuid', $uuid);
             });
+
         if ($r->has("no_paginate")) {
             return  $topicQuestions->limit(20)->get();
         }
-        $topicQuestions
+
+        return $topicQuestions
             ->paginate($r->perPage);
-        return $topicQuestions;
+       
     }
 }

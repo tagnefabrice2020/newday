@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Question;
 use App\Http\Controllers\Controller;
 use App\Models\Question;
 use App\Models\Option;
+use App\Models\Topic;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Str;
 use Illuminate\Http\Request;
@@ -14,7 +15,7 @@ class AddQuestionController extends Controller
     public function store(Request $r)
     {
         $r->validate([
-            'topic' => 'required|exists:topics,id',
+            
             'question' => 'required',
             'tags' => 'required',
             'options' => 'required|array|min:2',
@@ -25,7 +26,7 @@ class AddQuestionController extends Controller
         $question = new Question;
 
         $question->question = $r->input('question');
-        $question->topic_id = $r->input('topic');
+        $question->topic_id = Topic::where('uuid', $r->input('topic'))->first()->id;
         $question->uuid = Str::orderedUuid();
         $question->created_by = Auth::id();
 
@@ -42,7 +43,7 @@ class AddQuestionController extends Controller
             $question->answer = $r->input('question_answer');
         }
 
-        if ($r->has('multipleAnswer')){
+        if ($r->has('multipleAnswer') && $r->multipleAnswer === true){
             $question->multiple_answers = true;
         }
 
