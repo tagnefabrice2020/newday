@@ -19,6 +19,7 @@ class StoreUserController extends Controller
         ]);
 
         $user = new User();
+        
         $user->uuid = Str::orderedUuid();
         $user->name = $r->input('name');
         $user->username = $r->input('username');

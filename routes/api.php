@@ -3,6 +3,7 @@
 use App\Http\Controllers\Auth\AuthController;
 use App\Http\Controllers\Option\ReadOptionController;
 use App\Http\Controllers\Option\UpdateOptionController;
+use App\Http\Controllers\PracticeHistory\PracticeHistoryController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Topic\DeleteTopicController;
@@ -16,6 +17,7 @@ use App\Http\Controllers\Question\QuestionController;
 use App\Http\Controllers\Question\ReadQuestionController;
 use App\Http\Controllers\Question\UpdateQuestionController;
 use App\Http\Controllers\Topic\TopicQuestionController;
+use App\Models\PracticeHistory;
 
 /*
 |--------------------------------------------------------------------------
@@ -41,7 +43,11 @@ Route::middleware('auth:sanctum')->patch('/topics/{uuid}', [UpdateTopicControlle
 Route::middleware('auth:sanctum')->post('/topics', [StoreTopicController::class, 'store']);
 Route::middleware('auth:sanctum')->delete('/topics', [DeleteTopicController::class, 'destroy']);
 Route::middleware('auth:sanctum')->get('/topics/{uuid}/', [ReadTopicController::class, 'show']);
-Route::middleware('auth:sanctum')->get('/topics/{uuid}/questions', [TopicQuestionController::class, 'index']);
+
+Route::get('/topics/{uuid}/questions', [TopicQuestionController::class, 'index']);
+
+Route::post('/topics/history', [PracticeHistoryController::class, 'store']);
+Route::get('/topic/exam/history/{topic_id}', [PracticeHistory::class, 'getHistoryByTopic']);
 
 Route::middleware('auth:sanctum')->get('/my-questions', [QuestionController::class, 'index']);
 Route::middleware('auth:sanctum')->post('/my-questions', [AddQuestionController::class, 'store']);
@@ -53,8 +59,3 @@ Route::middleware('auth:sanctum')->get('/options/{id}', [ReadOptionController::c
 Route::middleware('auth:sanctum')->put('/options/{id}/update', [UpdateOptionController::class, 'update']);
 
 Route::get('/topicList', [TopicController::class, 'topicList']);
-
-// @include('./api/auth.php');
-// @include('./api/user.php');
-// @include('./api/question.php');
-// @include('./api/topic.php');
