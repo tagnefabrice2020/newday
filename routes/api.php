@@ -40,14 +40,18 @@ Route::post('/logout', [AuthController::class, 'logout']);
 
 Route::middleware('auth:sanctum')->get('/topics', [TopicController::class, 'index']);
 Route::middleware('auth:sanctum')->patch('/topics/{uuid}', [UpdateTopicController::class, 'update']);
-Route::middleware('auth:sanctum')->post('/topics', [StoreTopicController::class, 'store']);
+Route::post('/topics', [StoreTopicController::class, 'store']);
 Route::middleware('auth:sanctum')->delete('/topics', [DeleteTopicController::class, 'destroy']);
 Route::middleware('auth:sanctum')->get('/topics/{uuid}/', [ReadTopicController::class, 'show']);
 
 Route::get('/topics/{uuid}/questions', [TopicQuestionController::class, 'index']);
 
+Route::get('/topics/single/{uuid}/summary',  [ReadTopicController::class, 'showSingleTopicInfo']);
+
 Route::post('/topics/history', [PracticeHistoryController::class, 'store']);
 Route::get('/topic/exam/history/{topic_id}', [PracticeHistory::class, 'getHistoryByTopic']);
+
+Route::get('/practiceQuestionsbyTopics/{uuid}', [PracticeHistoryController::class, 'index']);
 
 Route::middleware('auth:sanctum')->get('/my-questions', [QuestionController::class, 'index']);
 Route::middleware('auth:sanctum')->post('/my-questions', [AddQuestionController::class, 'store']);

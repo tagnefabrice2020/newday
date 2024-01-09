@@ -26,8 +26,19 @@ class StoreTopicController extends Controller
 
         $topic->uuid = Str::orderedUuid();
         $topic->name = $r->name;
-        $topic->author_id = Auth::id();
+        $topic->author_id = 1;
         $topic->tags = implode(",", $r->tags);
+
+        if ($r->has('duration_per_question_in_minutes')) {
+            $topic->duration_per_question_in_minutes = $r->duration_per_question_in_minutes;
+        }
+        if ($r->has('passing_score')) {
+            $topic->passing_score = $r->passing_score;
+        }
+        if ($r->has('total_number_of_questions_per_session')) {
+            $topic->total_number_of_questions_per_session = $r->total_number_of_questions_per_session;
+        }
+
         if ($r->has('description')) {
             $topic->description = $r->description;
         }

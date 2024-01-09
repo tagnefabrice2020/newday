@@ -15,7 +15,6 @@ class AddQuestionController extends Controller
     public function store(Request $r)
     {
         $r->validate([
-            
             'question' => 'required',
             'tags' => 'required',
             'options' => 'required|array|min:2',

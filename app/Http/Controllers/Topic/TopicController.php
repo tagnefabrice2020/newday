@@ -32,7 +32,7 @@ class TopicController extends Controller
 
         $page = $r->input('page', 1);
 
-        $topics = Topic::with('setter')->paginate($perPage);
+        $topics = Topic::with('setter')->withCount('questions')->withCount("practiceHistory")->paginate($perPage);
       
         return response()->json($topics, 200);
 

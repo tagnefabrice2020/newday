@@ -21,4 +21,10 @@ class ReadTopicController extends Controller
 
         return response()->json($topic, 200);
     }
+
+    public function showSingleTopicInfo ($uuid) {
+        $topic = Topic::where('uuid', $uuid)->with('setter')->withCount('questions')->withCount("practiceHistory")->first();
+
+        return response()->json($topic, 200);
+    }
 }

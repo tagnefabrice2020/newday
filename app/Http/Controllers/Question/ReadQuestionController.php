@@ -13,6 +13,10 @@ class ReadQuestionController extends Controller
     {
         $question = Question::where('created_by', Auth::id())
             ->where('uuid', $id)->first();
+        if (!$question) {
+            return response()->json(['message' => 'not found'], 404);
+        }
+        
         $options = Option::where('question_id', $question->id)->get();
         $question['options'] = $options;
         return response()->json($question, 200);

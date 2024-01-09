@@ -10,15 +10,23 @@ class Topic extends Model
 {
     use HasFactory;
 
-    public function setter () {
+    public function setter()
+    {
         return $this->belongsTo(User::class, 'author_id', 'id');
     }
 
-    public function questions () {
+    public function questions()
+    {
         return $this->hasMany(Question::class);
     }
 
-    public function bundle () {
+    public function bundle()
+    {
         return $this->belongsToMany(Bundle::class, 'bundle_topic');
+    }
+
+    public function practiceHistory()
+    {
+        return $this->hasMany(PracticeHistory::class, 'topic_id');
     }
 }
