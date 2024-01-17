@@ -35,7 +35,5 @@ class TopicController extends Controller
         $topics = Topic::with('setter')->withCount('questions')->withCount("practiceHistory")->paginate($perPage);
       
         return response()->json($topics, 200);
-
-        // page de constat si cle constate ou constater?
     }
 }

@@ -10,6 +10,7 @@ class PracticeHistory extends Model
     use HasFactory;
 
     protected $table = 'practice_history';
+    public $timestamps = false;
 
     public function topic () {
         return $this->belongsTo(Topic::class, 'topic_id');

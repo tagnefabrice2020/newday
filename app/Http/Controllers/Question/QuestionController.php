@@ -16,6 +16,5 @@ class QuestionController extends Controller
         $questions = Question::where('created_by', Auth::id())->with(['options'])->paginate($perPage);
         return response()->json($questions, 200);
     }
-
-    // public function 
+    
 }

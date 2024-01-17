@@ -14,6 +14,7 @@ class AddQuestionController extends Controller
 {
     public function store(Request $r)
     {
+        
         $r->validate([
             'question' => 'required',
             'tags' => 'required',
@@ -21,7 +22,7 @@ class AddQuestionController extends Controller
             'options.*.option' => 'required|string',
             'options.*.isAnswer' => 'required|boolean',
         ]);
-
+        
         $question = new Question;
 
         $question->question = $r->input('question');
