@@ -4,6 +4,7 @@ use App\Http\Controllers\Auth\AuthController;
 use App\Http\Controllers\Option\ReadOptionController;
 use App\Http\Controllers\Option\UpdateOptionController;
 use App\Http\Controllers\PracticeHistory\PracticeHistoryController;
+use App\Http\Controllers\PracticeHistory\UserPracticeHistoryController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Topic\DeleteTopicController;
@@ -68,3 +69,7 @@ Route::post('/topics/practice/{topic_uuid}/{auth_user_email}', [PracticeQuestion
 Route::patch('/practice_history/{practice_uuid}', [PracticeQuestionController::class, 'updatePracticeHistory']);
 Route::get('/practice_history/list/{practice_uuid}/by/{author_email}', [PracticeQuestionController::class, 'getAllExamPracticesByTopicIdAndOwner']);
 Route::get('/getPracticeHistory/{uuid}', [PracticeQuestionController::class, 'getSingle']);
+
+Route::get('/practiceHistoryByUserGroupByTopics/{email}', [UserPracticeHistoryController::class, 'practiceHistoryByUserGroupByTopics']);
+Route::get('/getPracticeHistoryUserAndTopic/{email}/{topic}', [UserPracticeHistoryController::class, 'practiceHistoryByUserAndTopic']);
+Route::get('/getPracticeHistoryTopic/{email}/{topic}', [UserPracticeHistoryController::class, 'practiceHistoryByTopics']);
