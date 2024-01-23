@@ -19,8 +19,6 @@ class TopicController extends Controller
             return response()->json(["message" => "User not found"], 404);
         }
 
-        // $topics = Topic::where('author_id', $userId)->paginate($perPage);
-
         $topics = Topic::where('author_id', $userId)->withCount('questions')->get();
 
         return response()->json($topics, 200);
@@ -28,11 +26,12 @@ class TopicController extends Controller
 
     public function topicList(Request $r)
     {
-        $perPage = $r->input('per_page', 10);
-
+        $perPage = $r->input('per_page', 20);
         $page = $r->input('page', 1);
-
-        $topics = Topic::with('setter')->withCount('questions')->withCount("practiceHistory")->paginate($perPage);
+        $topics = Topic::with('setter')
+            ->withCount('questions')
+            ->withCount("practiceHistory")
+            ->paginate($perPage);
       
         return response()->json($topics, 200);
     }

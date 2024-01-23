@@ -13,12 +13,16 @@ class UploadBulkQuestionController extends Controller
 {
     public function uploadBulkQuestions(Request $r)
     {
+        // return response()->json(gettype($r->tags), 200);
         $topic = new Topic;
-
+       
         $topic->uuid = Str::orderedUuid();
         $topic->name = $r->name;
         $topic->author_id = 1;
-        $topic->tags = implode(",", $r->tags);
+
+        if ($r->has('tags')) {
+            $topic->tags = implode(",", $r->tags);
+        }
 
         if ($r->has('duration_per_question_in_minutes')) {
             $topic->duration_per_question_in_minutes = $r->duration_per_question_in_minutes;
@@ -36,6 +40,7 @@ class UploadBulkQuestionController extends Controller
 
         $saveTopic = $topic->save();
 
+
         if ($saveTopic && $r->has('questions')) {
             foreach ($r->questions as $questionData) {
                 $question = new Question();
@@ -46,7 +51,7 @@ class UploadBulkQuestionController extends Controller
                 $question->created_by = 101;
 
                 if (isset($questionData['tags'])) {
-                    $question->tags = implode('-', $questionData['tags']);
+                    $question->tags = implode(',', $questionData['tags']);
                 }
                 if (isset($questionData['correctFeedBack'])) {
                     $question->correct_feedback = $questionData['correctFeedBack'];
@@ -75,5 +80,4 @@ class UploadBulkQuestionController extends Controller
             return response()->json('Ooops something went wrong!', 500);
         }
     }
-
 }

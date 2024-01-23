@@ -19,6 +19,7 @@ use App\Http\Controllers\Question\QuestionController;
 use App\Http\Controllers\Question\ReadQuestionController;
 use App\Http\Controllers\Question\UpdateQuestionController;
 use App\Http\Controllers\Question\UploadBulkQuestionController;
+use App\Http\Controllers\Topic\SearchController;
 use App\Http\Controllers\Topic\TopicQuestionController;
 use App\Models\PracticeHistory;
 
@@ -76,3 +77,5 @@ Route::get('/getPracticeHistoryUserAndTopic/{email}/{topic}', [UserPracticeHisto
 Route::get('/getPracticeHistoryTopic/{email}/{topic}', [UserPracticeHistoryController::class, 'practiceHistoryByTopics']);
 
 Route::post('/upload-bulk-question', [UploadBulkQuestionController::class, 'uploadBulkQuestions']);
+
+Route::get('/search', [SearchController::class, 'search']);
