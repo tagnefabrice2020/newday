@@ -25,7 +25,7 @@ class SearchController extends Controller
             ->when($r->has('paid') && $r->paid, function ($query) {
                 $query->where('topics.free', false);
             })
-            ->when($r->has('type') && $r->type, function ($query) use ($r) {
+            ->when($r->has('type') && $r->type && strtolower($r->type) != "all", function ($query) use ($r) {
                 $query->where('topics.type', $r->type);
             })
             ->when($r->has('country') && $r->country, function ($query) use ($r) {
