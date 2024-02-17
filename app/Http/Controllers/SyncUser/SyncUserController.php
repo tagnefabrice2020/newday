@@ -15,7 +15,7 @@ class SyncUserController extends Controller
 
             $user->uuid = Str::orderedUuid();
             $user->authProviderId = $r->data['id'];
-            $user->name = $r->data['username'] || ($r->data['first_name'].'" "'.$data['last_name']);
+            $user->name = $r->data['username'] || ($r->data['first_name'].'" "'.$r->data['last_name']);
             $user->email = $r->data['email_addresses'][0]['email_address'];
             
             $user->role_id = 1;
