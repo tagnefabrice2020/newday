@@ -15,7 +15,7 @@ class SyncUserController extends Controller
 
             $user->uuid = Str::orderedUuid();
             $user->authProviderId = $r->data['id'];
-            $user->name = $r->data['username'];
+            $user->name = $r->data['username'] || ($r->data['first_name'].'" "'.$data['last_name']);
             $user->email = $r->data['email_addresses'][0]['email_address'];
             
             $user->role_id = 1;
@@ -28,7 +28,7 @@ class SyncUserController extends Controller
         } else if ($r->type === 'user.updated') {
             $user = User::where('email', $r->data['email'])->first();
 
-            if ($r->has("data.name")) {
+            if ($r->has("data.username")) {
                 $user->name = $r->data['username'];
             }
 
