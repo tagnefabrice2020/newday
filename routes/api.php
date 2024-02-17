@@ -21,7 +21,7 @@ use App\Http\Controllers\Question\UpdateQuestionController;
 use App\Http\Controllers\Question\UploadBulkQuestionController;
 use App\Http\Controllers\Topic\SearchController;
 use App\Http\Controllers\Topic\TopicQuestionController;
-use App\Models\PracticeHistory;
+use App\Http\Controllers\SyncUser\SyncUserController; 
 
 /*
 |--------------------------------------------------------------------------
