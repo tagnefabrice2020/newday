@@ -16,7 +16,7 @@ class SyncUserController extends Controller
             $user->uuid = Str::orderedUuid();
             $user->authProviderId = $r->data['id'];
             $user->name = $r->data['username'];
-            $user->email = $r->data['email_addresses']['email_address'];
+            $user->email = $r->data['email_addresses'][0]['email_address'];
             $user->image = $r->data['profile_image_url'];
             $user->role_id = 1;
         
@@ -32,8 +32,8 @@ class SyncUserController extends Controller
                 $user->name = $r->data['username'];
             }
 
-            if ($r->has("data.email")) {
-                $user->email = $r->data['email_addresses']['email_address'];
+            if ($r->has("data.email_addresses")) {
+                $user->email = $r->data['email_addresses'][0]['email_address'];
             }
 
             if ($r->has("data.profile_image_url")) {
