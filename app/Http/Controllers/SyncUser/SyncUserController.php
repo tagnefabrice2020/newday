@@ -17,7 +17,7 @@ class SyncUserController extends Controller
             $user->authProviderId = $r->data['id'];
             $user->name = $r->data['username'];
             $user->email = $r->data['email_addresses'][0]['email_address'];
-            $user->image = $r->data['profile_image_url'];
+            // $user->image = $r->data['profile_image_url'];
             $user->role_id = 1;
         
             $save = $user->save();
@@ -36,9 +36,9 @@ class SyncUserController extends Controller
                 $user->email = $r->data['email_addresses'][0]['email_address'];
             }
 
-            if ($r->has("data.profile_image_url")) {
-                $user->image = $r->data['profile_image_url'];
-            }
+            // if ($r->has("data.profile_image_url")) {
+            //     $user->image = $r->data['profile_image_url'];
+            // }
 
             $save = $user->save();
 
