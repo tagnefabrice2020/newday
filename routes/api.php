@@ -79,3 +79,5 @@ Route::get('/getPracticeHistoryTopic/{email}/{topic}', [UserPracticeHistoryContr
 Route::post('/upload-bulk-question', [UploadBulkQuestionController::class, 'uploadBulkQuestions']);
 
 Route::get('/search', [SearchController::class, 'search']);
+
+Route::post('/syncuser', [SyncUserController::class, 'store']);
