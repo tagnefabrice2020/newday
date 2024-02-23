@@ -13,7 +13,7 @@ use Illuminate\Support\Str;
 
 class PracticeQuestionController extends Controller
 {
-    public function newPracticeHistoryQuestion($uuid, $email)
+    public function newPracticeHistoryQuestion(Request $r, $uuid, $email)
     {
         $topic = Topic::where('uuid', $uuid)->first();
 
@@ -32,7 +32,7 @@ class PracticeQuestionController extends Controller
             $question = Question::where('topic_id', $topic->id)
                 ->with('options')
                 ->orderByRaw('RAND()')
-                ->limit($topic->total_number_of_questions_per_session ?? 50)
+                ->limit($r->numberOfQuestions ?? $topic->total_number_of_questions_per_session)
                 ->get();
 
             $practice_progress = new PracticeHistory();
@@ -49,7 +49,13 @@ class PracticeQuestionController extends Controller
             $practice_progress->passing_score = $topic->passing_score;
             $practice_progress->time_left = ($topic->total_number_of_questions_per_session * $topic->duration_per_question_in_minutes) * 60 * 1000;
 
-           
+            if ($r->has('immediateAnswerFeedback')) {
+                $practice_progress->iaf = true;
+            }
+
+            if ($r->has('numberOfQuestions')) {
+                $practice_progress->time_left = ($r->$practice_progress->time_left * $topic->duration_per_question_in_minutes) * 60 * 1000;
+            }
 
             $save = $practice_progress->save();
 
