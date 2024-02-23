@@ -54,7 +54,7 @@ class PracticeQuestionController extends Controller
             }
 
             if ($r->has('numberOfQuestions')) {
-                $practice_progress->time_left = ($r->$practice_progress->time_left * $topic->duration_per_question_in_minutes) * 60 * 1000;
+                $practice_progress->time_left = ($r->numberOfQuestions * $topic->duration_per_question_in_minutes) * 60 * 1000;
             }
 
             $save = $practice_progress->save();
