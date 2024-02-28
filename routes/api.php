@@ -81,3 +81,7 @@ Route::post('/upload-bulk-question', [UploadBulkQuestionController::class, 'uplo
 Route::get('/search', [SearchController::class, 'search']);
 
 Route::post('/syncuser', [SyncUserController::class, 'store']);
+
+Route::middleware("clerkAuth")->group(function () {
+    Route::get('/test', [SearchController::class, 'search']);
+});
