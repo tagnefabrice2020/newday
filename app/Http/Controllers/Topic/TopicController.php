@@ -27,7 +27,7 @@ class TopicController extends Controller
     public function topicList(Request $r)
     {
         $perPage = $r->input('per_page', 20);
-        $page = $r->input('page', 1);
+        
         $topics = Topic::with('setter')
             ->withCount('questions')
             ->withCount("practiceHistory")

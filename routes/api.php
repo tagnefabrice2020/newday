@@ -90,8 +90,15 @@ Route::middleware("clerkAuth")->group(function () {
     Route::get('/practiceTest/{uuid}', [PracticeQuestionController::class, 'getSingle']); // u
     // update practice test.
     Route::patch('/practiceTest/{practice_uuid}', [PracticeQuestionController::class, 'updatePracticeHistory']); // u
-    // create practice test
+    // create practice test.
     Route::post('/topics/practice/{topic_uuid}', [PracticeQuestionController::class, 'newPracticeHistoryQuestion']); // u
+    // list of user question pool.
+    // this contains also the filter with search param if exist.
+    Route::get('/user/question-pool', [ReadTopicController::class, "showAllQuestionPoolByAuthUser"]);
+    // list of user questions by question pool.
+    // this contains also the filter with search param if exist.
+    Route::get('/user/question-pool/{uuid}/questions', [ReadQuestionController::class, 'showAllQuestionsByUserAndByQuestionPool']);
+
     // practice test by user and topic / subject or course.
     // Route::get('/practice_history/list/{practice_uuid}/by/{author_email}', [PracticeQuestionController::class, 'getAllExamPracticesByTopicIdAndOwner']); 
 
