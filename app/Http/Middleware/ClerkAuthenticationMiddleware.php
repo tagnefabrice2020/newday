@@ -28,14 +28,18 @@ class ClerkAuthenticationMiddleware
         if (count($authorization) === 2) {
             try {
                 $token = $authorization[1];
+                
                 $tokenPayload = JWT::decode($token, new Key($publicKey, 'RS256'));
-              
+            
                 // Custom logic to find user from database using token payload
                 $user = User::where('authProviderId', $tokenPayload->sub)->first();
+
+
+
                 if (!empty($user)) {
                     // Authenticate user
                     auth()->login($user);
-                    return Auth::id(); // Return the ID of the authenticated user
+                    return $next($request); // Return the ID of the authenticated user
                 } else {
                     abort(401);
                 }
