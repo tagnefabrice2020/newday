@@ -67,21 +67,36 @@ Route::post('/topics/history', [PracticeHistoryController::class, 'store']);
 Route::get('/topic/exam/history/{topic_id}', [PracticeHistory::class, 'getHistoryByTopic']);
 Route::get('/practiceQuestionsbyTopics/{uuid}', [PracticeHistoryController::class, 'index']);
 
-Route::post('/topics/practice/{topic_uuid}/{auth_user_email}', [PracticeQuestionController::class, 'newPracticeHistoryQuestion']);
-Route::patch('/practice_history/{practice_uuid}', [PracticeQuestionController::class, 'updatePracticeHistory']);
-Route::get('/practice_history/list/{practice_uuid}/by/{author_email}', [PracticeQuestionController::class, 'getAllExamPracticesByTopicIdAndOwner']);
-Route::get('/getPracticeHistory/{uuid}', [PracticeQuestionController::class, 'getSingle']);
 
-Route::get('/practiceHistoryByUserGroupByTopics/{email}', [UserPracticeHistoryController::class, 'practiceHistoryByUserGroupByTopics']);
-Route::get('/getPracticeHistoryUserAndTopic/{email}/{topic}', [UserPracticeHistoryController::class, 'practiceHistoryByUserAndTopic']);
-Route::get('/getPracticeHistoryTopic/{email}/{topic}', [UserPracticeHistoryController::class, 'practiceHistoryByTopics']);
 
-Route::post('/upload-bulk-question', [UploadBulkQuestionController::class, 'uploadBulkQuestions']);
+
+
 
 Route::get('/search', [SearchController::class, 'search']);
 
 Route::post('/syncuser', [SyncUserController::class, 'store']);
 
+// u --- stands for used in front end app
+
 Route::middleware("clerkAuth")->group(function () {
     Route::get('/test', [SearchController::class, 'search']);
+
+
+    // get practice history stats by topics.
+    Route::get('/practiceTestByUserGroupByTopics', [UserPracticeHistoryController::class, 'practiceHistoryByUserGroupByTopics']); // u
+    // get users practice history for a particular topic --- returns a list of past practice taken for a particular topic.
+    Route::get('/practiceTestByUserAndTopic/{topic}', [UserPracticeHistoryController::class, 'practiceHistoryByUserAndTopic']); // u
+    // get a single practice history.
+    Route::get('/practiceTest/{uuid}', [PracticeQuestionController::class, 'getSingle']); // u
+    // update practice test.
+    Route::patch('/practiceTest/{practice_uuid}', [PracticeQuestionController::class, 'updatePracticeHistory']); // u
+    // create practice test
+    Route::post('/topics/practice/{topic_uuid}', [PracticeQuestionController::class, 'newPracticeHistoryQuestion']); // u
+    // practice test by user and topic / subject or course.
+    // Route::get('/practice_history/list/{practice_uuid}/by/{author_email}', [PracticeQuestionController::class, 'getAllExamPracticesByTopicIdAndOwner']); 
+
+    Route::get('/getPracticeHistoryTopic/{topic}', [UserPracticeHistoryController::class, 'practiceHistoryByTopics']); 
+
+
+    Route::post('/upload-bulk-question', [UploadBulkQuestionController::class, 'uploadBulkQuestions']);
 });

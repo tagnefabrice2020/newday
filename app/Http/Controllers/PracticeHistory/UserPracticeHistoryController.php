@@ -7,10 +7,11 @@ use App\Models\PracticeHistory;
 use App\Models\Topic;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Auth;
 
 class UserPracticeHistoryController extends Controller
 {
-    public function practiceHistoryByUserGroupByTopics($email)
+    public function practiceHistoryByUserGroupByTopics()
     {
         $topics = PracticeHistory::select(
             'test_taker_email',
@@ -18,7 +19,7 @@ class UserPracticeHistoryController extends Controller
             DB::raw('COUNT(*) as count'),
             DB::raw('AVG(score) as average_score'),
             DB::raw('AVG(time_left) as average_time_left')
-        )->where('test_taker_email', $email)
+        )->where('test_taker_email', Auth::user()->email)
             ->groupBy('test_taker_email', 'topic_id')
             ->distinct()
             ->with('topic')
@@ -27,28 +28,22 @@ class UserPracticeHistoryController extends Controller
         return response()->json($topics, 200);
     }
 
-    public function practiceHistoryByUserAndTopic($email, $topicUuid)
+    public function practiceHistoryByUserAndTopic($topicUuid)
     {
-        // $topics = PracticeHistory::where('test_taker_email', $email)
-        //     ->where('topic_id', $topicUuid)
-        //     ->with('topic')
-        //     ->orderBy('id', 'DESC')
-        //     ->paginate(10);
-
         $topics = DB::table('practice_history')
             ->join('topics', 'topics.id', '=', 'practice_history.topic_id')
             ->select('practice_history.*', 'topics.name as topic_name', 'topics.passing_score as passing_score') // Adjust the columns you want to select
             ->where('topics.uuid', $topicUuid)
-            ->where('practice_history.test_taker_email', $email)
+            ->where('practice_history.test_taker_email', Auth::user()->email)
             ->orderBy('practice_history.id', 'DESC')
             ->paginate(10);
 
         return response()->json($topics, 200);
     }
 
-    public function practiceHistoryByTopics($email)
+    public function practiceHistoryByTopics()
     {
-        $topics = PracticeHistory::where('test_taker_email', $email)->paginate(10);
+        $topics = PracticeHistory::where('test_taker_email', Auth::user()->email)->paginate(10);
 
         return response()->json($topics, 200);
     }

@@ -13,7 +13,7 @@ use Illuminate\Support\Str;
 
 class PracticeQuestionController extends Controller
 {
-    public function newPracticeHistoryQuestion(Request $r, $uuid, $email)
+    public function newPracticeHistoryQuestion(Request $r, $uuid)
     {
         $topic = Topic::where('uuid', $uuid)->first();
 
@@ -22,7 +22,7 @@ class PracticeQuestionController extends Controller
         }
 
         // get last practice test based on the topic of practice test choosen.
-        $practice_history = PracticeHistory::where('test_taker_email', $email)
+        $practice_history = PracticeHistory::where('test_taker_email', Auth::user()->email)
             ->where('topic_id', $topic->id)
             ->whereNull('completed_date')
             ->orderBy('start_date', 'desc')
@@ -39,7 +39,7 @@ class PracticeQuestionController extends Controller
 
             $practice_progress->uuid = Str::orderedUuid();
             $practice_progress->topic_id = $topic->id;
-            $practice_progress->test_taker_email = $email;
+            $practice_progress->test_taker_email = Auth::user()->email;
             $practice_progress->test_questions = json_encode($question);
             $practice_progress->answered_questions = "[]";
             $practice_progress->start_date = now();
