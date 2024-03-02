@@ -46,8 +46,11 @@ class ReadTopicController extends Controller
         $questionPools = Topic::where('author_id', Auth::id())
             ->withCount(['questions', 'practiceHistory'])
             ->when($r->has('search') && strlen($r->search) > 3, function ($query) use ($r) {
-                $query->where('description', 'like', '%' . $r->search . '%')
-                        ->orWhere('name', 'like', '%' . $r->search . '%');
+                $searchTerm = strtolower($r->search); // Convert search term to lowercase
+                $query->where(function ($subQuery) use ($searchTerm) {
+                    $subQuery->whereRaw('LOWER(description) like ?', ['%' . $searchTerm . '%'])
+                        ->orWhereRaw('LOWER(name) like ?', ['%' . $searchTerm . '%']);
+                });
             })
             ->paginate($perPage);
 
