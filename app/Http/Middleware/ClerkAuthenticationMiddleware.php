@@ -34,8 +34,6 @@ class ClerkAuthenticationMiddleware
                 // Custom logic to find user from database using token payload
                 $user = User::where('authProviderId', $tokenPayload->sub)->first();
 
-
-
                 if (!empty($user)) {
                     // Authenticate user
                     auth()->login($user);
