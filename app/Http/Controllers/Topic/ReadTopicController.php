@@ -36,14 +36,14 @@ class ReadTopicController extends Controller
         $perPage = $r->input('per_page', 10);
 
         // Retrieve the total count of topics for the user
-        $totalTopicsCount = Topic::where('user_id', Auth::id())
+        $totalTopicsCount = Topic::where('author_id', Auth::id())
             ->when($r->has('search') && count($r->search) > 3, function ($query) use ($r) {
                 $query->where('description', 'like', '%' . $r->search . '%')
                     ->orWhere('name', 'like', '%' . $r->search . '%');
             })
             ->count();
 
-        $questionPools = Topic::where('user_id', Auth::id())
+        $questionPools = Topic::where('author_id', Auth::id())
             ->withCount(['questions', 'practiceHistory'])
             ->when($r->has('search') && count($r->search) > 3, function ($query) use ($r) {
                 $query->where('description', 'like', '%' . $r->search . '%')
