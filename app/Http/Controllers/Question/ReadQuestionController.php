@@ -7,6 +7,7 @@ use App\Models\Option;
 use App\Models\Question;
 use App\Models\Topic;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Http\Request;
 
 class ReadQuestionController extends Controller
 {
