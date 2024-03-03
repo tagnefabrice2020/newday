@@ -43,10 +43,6 @@ Route::post('/login', [AuthController::class, 'login']);
 Route::post('/logout', [AuthController::class, 'logout']);
 
 Route::get('/topics', [TopicController::class, 'index']);
-Route::patch('/topics/{uuid}', [UpdateTopicController::class, 'update']);
-Route::post('/topics', [StoreTopicController::class, 'store']);
-Route::delete('/topics', [DeleteTopicController::class, 'destroy']);
-Route::get('/topics/{uuid}/', [ReadTopicController::class, 'show']);
 
 
 
@@ -98,11 +94,15 @@ Route::middleware("clerkAuth")->group(function () {
     // list of user questions by question pool.
     // this contains also the filter with search param if exist.
     Route::get('/user/question-pool/{uuid}/questions', [ReadQuestionController::class, 'showAllQuestionsByUserAndByQuestionPool']);
-
     // practice test by user and topic / subject or course.
     // Route::get('/practice_history/list/{practice_uuid}/by/{author_email}', [PracticeQuestionController::class, 'getAllExamPracticesByTopicIdAndOwner']); 
-
     Route::get('/getPracticeHistoryTopic/{topic}', [UserPracticeHistoryController::class, 'practiceHistoryByTopics']); 
+
+
+    Route::patch('/topics/{uuid}', [UpdateTopicController::class, 'update']);
+    Route::post('/topics', [StoreTopicController::class, 'store']);
+    Route::delete('/topics', [DeleteTopicController::class, 'destroy']);
+    Route::get('/topics/{uuid}', [ReadTopicController::class, 'show']);
 
 
     Route::post('/upload-bulk-question', [UploadBulkQuestionController::class, 'uploadBulkQuestions']);
