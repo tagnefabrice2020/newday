@@ -13,7 +13,9 @@ class UpdateTopicController extends Controller
 {
     public function update(Request $r, $uuid)
     {
-        $topic = Topic::where('uuid', $uuid)->first();
+        $topic = Topic::where('uuid', $uuid)
+                    ->where('author_id', Auth::id())
+                    ->first();
 
         if (!$topic) {
             return response()->json(['message' => 'Topic not found'], 404);
@@ -52,6 +54,12 @@ class UpdateTopicController extends Controller
         }
         
         $save = $topic->save();
+
+        $topic = $topic->withCount(['questions', 'practiceHistory'])
+                    ->where('uuid', $uuid)
+                    ->where('author_id', Auth::id())
+                    ->first();
+                    
         if ($save) {
             return response()->json(['topic' => $topic], 201);
         }

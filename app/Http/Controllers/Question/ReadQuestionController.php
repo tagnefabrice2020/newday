@@ -25,11 +25,13 @@ class ReadQuestionController extends Controller
     }
 
     public function showAllQuestionsByUserAndByQuestionPool (Request $r, $uuid) {
-        $topic = Topic::where('uuid', $uuid)->first();
-
+        $topic = Topic::where('uuid', $uuid)
+                    ->withCount(['questions'])
+                    ->where('author_id', Auth::user()->id)
+                    ->first();
+        
         $questions = Question::with('options')
             ->where('topic_id', $topic->id)
-            ->where('created_by', Auth::user()->id)
             ->when($r->has('search') && strlen($r->search) > 3, function ($query) use ($r) {
                 $searchTerm = strtolower($r->search);
                 $query->where(function ($query) use ($searchTerm) {
@@ -41,6 +43,7 @@ class ReadQuestionController extends Controller
             })
             ->paginate($r->input('per_page', 10));
 
-        return response()->json($questions, 200);
+
+        return response()->json(["questions" => $questions, "topic" => $topic], 200);
     }
 }
