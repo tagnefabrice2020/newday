@@ -29,7 +29,7 @@ class ReadQuestionController extends Controller
 
         $questions = Question::with('options')
             ->where('topic_id', $topic->id)
-            ->where('user_id', Auth::user()->id)
+            ->where('created_by', Auth::user()->id)
             ->when($r->has('search') && strlen($r->search) > 3, function ($query) use ($r) {
                 $searchTerm = strtolower($r->search);
                 $query->where(function ($query) use ($searchTerm) {
