@@ -29,13 +29,16 @@ class ReadQuestionController extends Controller
         $questions = Question::with('options')
             ->where('topic_id', $topic->id)
             ->where('user_id', Auth::user()->id)
-            ->when($r->has('search') && count($r->search) > 3, function ($query) use ($r) {
-                $query->where('question', 'like', '%' . $r->search . '%')
-                    ->orWhereHas('options', function ($query) use ($r) {
-                        $query->where('option_text', 'like', '%' . $r->search . '%');
-                    });
+            ->when($r->has('search') && strlen($r->search) > 3, function ($query) use ($r) {
+                $searchTerm = strtolower($r->search);
+                $query->where(function ($query) use ($searchTerm) {
+                    $query->whereRaw('LOWER(question) LIKE ?', ['%' . $searchTerm . '%'])
+                        ->orWhereHas('options', function ($query) use ($searchTerm) {
+                            $query->whereRaw('LOWER(option_text) LIKE ?', ['%' . $searchTerm . '%']);
+                        });
+                });
             })
-            ->paginate(r->input('per_page', 10));
+            ->paginate($r->input('per_page', 10));
 
         return response()->json($questions, 200);
     }
