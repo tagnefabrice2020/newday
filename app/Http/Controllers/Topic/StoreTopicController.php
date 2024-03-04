@@ -26,7 +26,7 @@ class StoreTopicController extends Controller
 
         $topic->uuid = Str::orderedUuid();
         $topic->name = $r->name;
-        $topic->author_id = 1;
+        $topic->author_id = Auth::id();
         $topic->tags = implode(",", $r->tags);
 
         if ($r->has('duration_per_question_in_minutes')) {
