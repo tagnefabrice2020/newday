@@ -43,8 +43,9 @@ class StoreTopicController extends Controller
             $topic->description = $r->description;
         }
         $save = $topic->save();
+        
         if ($save) {
-            return response()->json(['topic' => $topic], 201);
+            return response()->json(['topic' => $topic->loadCount(['questions', 'practiceHistory'])], 201);
         }
         return response()->json(['message' => 'Oops something went wrong'], 500);
     }
