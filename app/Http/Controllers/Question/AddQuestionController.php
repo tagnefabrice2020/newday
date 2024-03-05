@@ -14,7 +14,6 @@ class AddQuestionController extends Controller
 {
     public function store(Request $r)
     {
-        
         $r->validate([
             'question' => 'required',
             'tags' => 'required',
@@ -46,8 +45,6 @@ class AddQuestionController extends Controller
         if ($r->has('multipleAnswer') && $r->multipleAnswer === true){
             $question->multiple_answers = true;
         }
-
-
 
         $save = $question->save();
 

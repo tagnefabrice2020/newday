@@ -12,21 +12,17 @@ class UpdateQuestionController extends Controller
 {
     public function update(Request $r, $id)
     {
-        // $r->validate([
-        //     'topic' => 'required|existes:topics,id',
-        //     'question' => 'required',
-        //     'options' => 'required|array|min:2',
-        //     'options.*.option_text' => 'required|string',
-        //     'options.*.is_correct' => 'required|boolean',
-        // ]);
-
         $question = Question::where('created_by', Auth::id())->where('uuid', $id)->first();
+
+        if (empty($question)) {
+            return response()->json(['message' => 'Not Found!'], 404);
+        }
 
         if ($r->has('question')) {
             $question->question = $r->input('question');
         }
         if ($r->input('tags')) {
-            $question->tags = $r->input('tags');
+            $question->tags = implode('-', $r->input('tags'));
         }
         if ($r->input('correct_feedback')) {
             $question->correct_feedback = $r->input('correct_feedback');
@@ -53,6 +49,7 @@ class UpdateQuestionController extends Controller
             }
         }
 
-        return response()->json(['message' => 'Question and options updated successfully'], 200);
+        return response()->json(['question' => $question], 200);
     }
+    
 }
