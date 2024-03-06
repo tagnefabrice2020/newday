@@ -104,7 +104,7 @@ Route::middleware("clerkAuth")->group(function () {
     Route::post('/my-questions', [AddQuestionController::class, 'store']);
     Route::delete('/my-questions/{uuid}', [DeleteQuestionController::class, 'destroy']);
     Route::get('/my-questions/{id}', [ReadQuestionController::class, 'show']);
-    Route::put('/my-questions/{id}/update', [UpdateQuestionController::class, 'update']);
+    Route::patch('/my-questions/{id}', [UpdateQuestionController::class, 'update']);
 
 
     Route::post('/upload-bulk-question/{topic_uuid}', [UploadBulkQuestionController::class, 'uploadBulkQuestions']);
