@@ -43,8 +43,8 @@ class UpdateQuestionController extends Controller
             foreach ($r->input('options') as $optionData) {
                 $option = new Option();
                 $option->question_id = $question->id;
-                $option->option_text = $optionData['option_text'];
-                $option->is_correct = $optionData['is_correct'];
+                $option->option_text = $optionData['option'];
+                $option->is_correct = $optionData['isAnswer'];
                 $option->save();
             }
         }
