@@ -50,8 +50,9 @@ class UpdateQuestionController extends Controller
                 $option->save();
             }
         }
-
-        return response()->json(['question' => $question], 200);
+        $question = $question->with('options');
+        
+        return response()->json(['question' => $question->with('options')], 200);
     }
     
 }
