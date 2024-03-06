@@ -105,5 +105,5 @@ Route::middleware("clerkAuth")->group(function () {
     Route::get('/topics/{uuid}', [ReadTopicController::class, 'show']);
 
 
-    Route::post('/upload-bulk-question', [UploadBulkQuestionController::class, 'uploadBulkQuestions']);
+    Route::post('/upload-bulk-question/{topic_uuid}', [UploadBulkQuestionController::class, 'uploadBulkQuestions']);
 });

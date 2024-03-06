@@ -8,47 +8,25 @@ use App\Models\Question;
 use App\Models\Topic;
 use Illuminate\Http\Request;
 use Illuminate\Support\Str;
+use Illuminate\Support\Facades\Auth;
+
 
 class UploadBulkQuestionController extends Controller
 {
-    public function uploadBulkQuestions(Request $r)
+    public function uploadBulkQuestions(Request $r, $uuid)
     {
         // return response()->json(gettype($r->tags), 200);
-        $topic = new Topic;
-       
-        $topic->uuid = Str::orderedUuid();
-        $topic->name = $r->name;
-        $topic->author_id = 1;
-
-        if ($r->has('tags')) {
-            $topic->tags = implode(",", $r->tags);
-        }
-
-        if ($r->has('duration_per_question_in_minutes')) {
-            $topic->duration_per_question_in_minutes = $r->duration_per_question_in_minutes;
-        }
-        if ($r->has('passing_score')) {
-            $topic->passing_score = $r->passing_score;
-        }
-        if ($r->has('total_number_of_questions_per_session')) {
-            $topic->total_number_of_questions_per_session = $r->total_number_of_questions_per_session;
-        }
-
-        if ($r->has('description')) {
-            $topic->description = $r->description;
-        }
-
-        $saveTopic = $topic->save();
+        $topic = Topic::where("uuid", $uuid)->first();
 
 
-        if ($saveTopic && $r->has('questions')) {
+        if (!empty($topic) && $r->has('questions')) {
             foreach ($r->questions as $questionData) {
                 $question = new Question();
 
                 $question->question = $questionData['question'];
                 $question->topic_id = $topic->id;
                 $question->uuid = Str::orderedUuid();
-                $question->created_by = 101;
+                $question->created_by = Auth::id();
 
                 if (isset($questionData['tags'])) {
                     $question->tags = implode(',', $questionData['tags']);
