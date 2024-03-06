@@ -46,11 +46,6 @@ Route::get('/topics', [TopicController::class, 'index']);
 
 
 
-Route::get('/my-questions', [QuestionController::class, 'index']);
-Route::post('/my-questions', [AddQuestionController::class, 'store']);
-Route::delete('/my-questions/{uuid}', [DeleteQuestionController::class, 'destroy']);
-Route::get('/my-questions/{id}', [ReadQuestionController::class, 'show']);
-Route::put('/my-questions/{id}/update', [UpdateQuestionController::class, 'update']);
 
 Route::middleware('auth:sanctum')->get('/options/{id}', [ReadOptionController::class, 'show']);
 Route::middleware('auth:sanctum')->put('/options/{id}/update', [UpdateOptionController::class, 'update']);
@@ -103,6 +98,13 @@ Route::middleware("clerkAuth")->group(function () {
     Route::post('/topics', [StoreTopicController::class, 'store']);
     Route::delete('/topics', [DeleteTopicController::class, 'destroy']);
     Route::get('/topics/{uuid}', [ReadTopicController::class, 'show']);
+
+
+    Route::get('/my-questions', [QuestionController::class, 'index']);
+    Route::post('/my-questions', [AddQuestionController::class, 'store']);
+    Route::delete('/my-questions/{uuid}', [DeleteQuestionController::class, 'destroy']);
+    Route::get('/my-questions/{id}', [ReadQuestionController::class, 'show']);
+    Route::put('/my-questions/{id}/update', [UpdateQuestionController::class, 'update']);
 
 
     Route::post('/upload-bulk-question/{topic_uuid}', [UploadBulkQuestionController::class, 'uploadBulkQuestions']);
