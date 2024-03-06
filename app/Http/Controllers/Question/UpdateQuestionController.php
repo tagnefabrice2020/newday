@@ -7,6 +7,7 @@ use App\Models\Option;
 use App\Models\Question;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Http\Request;
+use Illuminate\Support\Str;
 
 class UpdateQuestionController extends Controller
 {
