@@ -50,9 +50,9 @@ class UpdateQuestionController extends Controller
                 $option->save();
             }
         }
-        $question = $question->with('options');
-        
-        return response()->json(['question' => $question->with('options')], 200);
+        $question = $question->with('options')->where('uuid', $id)->first();
+
+        return response()->json(['question' => $question], 200);
     }
     
 }
