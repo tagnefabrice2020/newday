@@ -10,6 +10,7 @@ use App\Models\Topic;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Str;
+use Illuminate\Support\Facades\Auth;
 
 class PracticeQuestionController extends Controller
 {
