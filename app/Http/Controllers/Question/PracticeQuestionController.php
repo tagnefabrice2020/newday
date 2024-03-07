@@ -119,7 +119,7 @@ class PracticeQuestionController extends Controller
 
     public function getSingle($uuid)
     {
-        $practice_history = PracticeHistory::where('uuid', $uuid)->with('topic')->first();
+        $practice_history = PracticeHistory::where('uuid', $uuid)->where('test_taker_email', Auth::user()->email)->with('topic')->first();
 
         if (!$practice_history) {
             return response()->json(['message' => 'not found!'], 404);
