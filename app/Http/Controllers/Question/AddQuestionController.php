@@ -32,10 +32,10 @@ class AddQuestionController extends Controller
         if ($r->input('tags')) {
             $question->tags = implode('-', $r->input('tags'));
         }
-        if ($r->input('correct_feedback')) {
+        if ($r->input('correct_feedback') && strlen($r->input("correct_feedback")) > 0) {
             $question->correct_feedback = $r->input('correct_feedback');
         }
-        if ($r->input('incorrect_feedback')) {
+        if ($r->input('incorrect_feedback') && strlen($r->input('incorrect_feedback')) > 0) {
             $question->incorrect_feedback = $r->input('incorrect_feedback');
         }
         if ($r->has('question_answer')) {
