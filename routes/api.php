@@ -96,7 +96,7 @@ Route::middleware("clerkAuth")->group(function () {
 
     Route::patch('/topics/{uuid}', [UpdateTopicController::class, 'update']);
     Route::post('/topics', [StoreTopicController::class, 'store']);
-    Route::delete('/topics', [DeleteTopicController::class, 'destroy']);
+    Route::delete('/topics/{uuid}', [DeleteTopicController::class, 'destroy']);
     Route::get('/topics/{uuid}', [ReadTopicController::class, 'show']);
 
 
